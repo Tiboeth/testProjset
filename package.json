@@ -7,7 +7,7 @@
   
     "scripts": {
     "start": "node app.js"
-  }
+  },
   "license": "MIT",
   "engines": {
     "node": "5.9.x"
