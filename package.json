@@ -1,0 +1,28 @@
+{
+  "name": "testProjset",
+  "version": "0.1.0",
+  "description": "Test project",
+  "keywords": [
+    "multiplayer",
+    "pong",
+    "websockets",
+    "socket.io",
+    "deviceorientatino",
+    "tilt",
+    "node",
+    "express"
+  ],
+
+  "license": "MIT",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tiboeth/testProjset"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.7.3"
+  }
+}
