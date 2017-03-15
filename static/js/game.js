@@ -319,13 +319,13 @@ deviceOri = {}, // device ori to store .....
    	updateScore();
 
    	// Move the paddles on mouse move
-   	if(mouse.x && mouse.y) {
-   		for(var i = 1; i < paddles.length; i++) {
+  // 	if(mouse.x && mouse.y) {
+   	//	for(var i = 1; i < paddles.length; i++) {
 
-          p = paddles[i];
-     			p.y = mouse.y - p.h/2;
-      }
-   	}
+      //    p = paddles[i];
+     	//		p.y = mouse.y - p.h/2;
+     // }
+   	//}
 
     if (orientationData) {
       for (var i = 0; i < paddles.length; i++) {
