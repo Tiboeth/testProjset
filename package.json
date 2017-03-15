@@ -1,21 +1,16 @@
 {
   "name": "testProjset",
-  "version": "0.1.0",
+  "version": "0.2.5",
   "description": "Test project",
-  "keywords": [
-    "multiplayer",
-    "pong",
-    "websockets",
-    "socket.io",
-    "deviceorientatino",
-    "tilt",
-    "node",
-    "express"
-  ],
 
+  "main": "app.js",
+  
+    "scripts": {
+    "start": "node app.js"
+  }
   "license": "MIT",
   "engines": {
-    "node": "0.10.x"
+    "node": "5.9.x"
   },
   "repository": {
     "type": "git",
