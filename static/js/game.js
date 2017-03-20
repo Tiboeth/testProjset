@@ -453,7 +453,7 @@
     }
 
 
-startScreen();
+//startScreen();
 // starts the hole game
   function startScreen(){
       if (over==true) {
@@ -565,7 +565,7 @@ startScreen();
          prevTime = now;
 
          //updateScene(delta);
-        // drawScene();
+         //drawScene();
          startScreen();
        }, 15);
 
