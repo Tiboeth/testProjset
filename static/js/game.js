@@ -29,6 +29,7 @@
   function setupHost() {
     socket.emit('host game', { gameName: 'adam' });
 
+
    //startScreen();
 
     var players = [];
@@ -65,7 +66,7 @@
       var player = players.filter(function(p) { return p.name === data.playerName; })[0];
       if (!player) return console.log('Player not found', data.playerName);
 
-      var tilt = data.beta; // .beta for tilt up-down .gamma tilt left-right
+      var tilt = data.beta;
       if (tilt < -45) tilt = -45;
       if (tilt > 45) tilt = 45;
       tilt += 45;
@@ -75,7 +76,7 @@
 
     // Add mousemove and mousedown events to the canvas
       document.addEventListener('click', btnClick, true);
-  //  canvas.addEventListener("click", btnClick, true);
+  //    canvas.addEventListener("click", btnClick, true);
 
 
     var canvas = document.getElementById('game');
@@ -177,10 +178,18 @@
       ball.pos = addVector(ball.pos, ball.dir);
 
       // detect hits with players
- players.forEach(function(player) {
+      players.forEach(function(player) {
         var pos = player.getPos(gs);
+
         var hit = false;
-     if (pos.y-125 <= ball.pos.y+ball.size && pos.y+ 125 >= ball.pos.y+ball.size) {
+        var hitDistance = player.size + ball.size;
+        var incoming = subPos(pos, ball.pos);
+        var distance = lenVector(incoming);
+        var yDistance= 0;
+        var xdistance= 0;
+
+
+       if (pos.y-125 <= ball.pos.y+ball.size && pos.y+ 125 >= ball.pos.y+ball.size) {
           if (ball.pos.x - ball.size < gs.x + 20) {
             ball.pos.x = gs.x + ball.size+30;
             ball.dir.x = -ball.dir.x;
@@ -194,33 +203,51 @@
 
           }
         }
+        /*    if (distance <= hitDistance) {
+         var normIncoming = normalizeVector(incoming);
+          var normDir = normalizeVector(ball.dir);
+          var normTangent = rotateVector(normIncoming, Math.PI/2);
+
+          var angle = angleVector(normDir, normTangent);
+          var normNewDir = rotateVector(normTangent, angle);
+
+          // for debug
+          // global1 = cpyVector(normDir);
+          // global2 = cpyVector(normTangent);
+          // global3 = cpyVector(normNewDir);
+
+          ball.dir = mulVector(normNewDir, lenVector(ball.dir));
+
+          hit = true;
+
+        } */
+
         player.isHit = hit;
       });
 
       // detect hits with game border
       if (ball.pos.x + ball.size > gs.x + gs.w) {
-        //ball.pos.x = gs.w - ball.size + gs.x;
-        //ball.dir.x = -ball.dir.x;
-         wallL=1;
-         reRun1();
+      //  ball.pos.x = gs.w - ball.size + gs.x;
+      //  ball.dir.x = -ball.dir.x;
+       wallL=1;
+       reRun1();
       } else if (ball.pos.x - ball.size < gs.x) {
-          // ball.pos.x = gs.x + ball.size;
-          //ball.dir.x = -ball.dir.x;
-         wallR=1;
-         reRun2();
+      //  ball.pos.x = gs.x + ball.size;
+        //ball.dir.x = -ball.dir.x;
+       wallR=1;
+       reRun2();
       }
       if (ball.pos.y + ball.size > gs.y + gs.h) {
-          ball.pos.y = gs.h - ball.size + gs.y;
-          ball.dir.y = -ball.dir.y;
-      }
-      else if (ball.pos.y - ball.size < gs.y) {
-          ball.pos.y = gs.y + ball.size;
-          ball.dir.y = -ball.dir.y;
+        ball.pos.y = gs.h - ball.size + gs.y;
+        ball.dir.y = -ball.dir.y;
+      } else if (ball.pos.y - ball.size < gs.y) {
+        ball.pos.y = gs.y + ball.size;
+        ball.dir.y = -ball.dir.y;
       }
     }
 
-  // Function for updating score
- function updateScore() {
+    // Function for updating score
+      function updateScore() {
         var gs = getGameBoardSize();
          ctx.fillStlye = "white";
          ctx.font = "80px Arial, sans-serif";
@@ -230,49 +257,52 @@
 
       }
 
-//function to restart the game when a player scores  
- function reRun1() {
-        if (point2 < 4 && wallL==1){
-            point2 ++;
-            wallL=0;
-              var gs = getGameBoardSize();
-            ball.pos = { x:  ball.size/2+20, y:  ball.size/2 +20};
-            ball.dir = { x: 5, y: 4 }; // cheek to see if the ball starts from where it ended
-        }
-       else {
-            gameOver();
-        }
 
-    }
-    
-  function reRun2() {
+    function reRun1() {
+      if (point2 < 4 && wallL==1){
+   		point2 ++;
+   		wallL=0;
+        var gs = getGameBoardSize();
+      ball.pos = { x:  ball.size/2+20, y:  ball.size/2 +20};
+      ball.dir = { x: 5, y: 4 }; // cheek to see if the ball starts from where it ended
+
+   	}
+   	else {
+   		gameOver();
+   	}
+
+  }
+    function reRun2() {
       if (point1 < 4 && wallR==1){
-         point1 ++;
-         wallR=0;
+        point1 ++;
+        wallR=0;
          var gs = getGameBoardSize();
-         ball.pos = { x: gs.vp.w-ball.size/2-20, y: ball.size/2+20 };
-         ball.dir = { x: -5, y: 4 }; // cheek to see if the ball starts from where it ended
+        ball.pos = { x: gs.vp.w-ball.size/2-20, y: ball.size/2+20 };
+        ball.dir = { x: -5, y: 4 }; // cheek to see if the ball starts from where it ended
 
       }
       else {
-         gameOver();
+          gameOver();
         }
     }
-    
-// function when the game is over
-  function gameOver() {
-      if (wallR== 1) { // to adjust the final score
-            point1++; 
-          }
-      else if (wallL == 1) {
-            point2++;
-          }
-      over = true;          // set the restart button on with over==true && Gameover== true
+
+    function gameOver() {
+    if (wallR== 1) {
+      point1++;
+
+    }
+    else if (wallL == 1) {
+      point2++;
+
+    }
+      //cancel animation
+      over = true;
       GameOver = true;
-           
+      //drawRestart();
+      //restartBtn.draw();
     }
 
-    // reStart Button object
+    // reStart Button function
 
        restartBtn = {
          w: 100,
@@ -321,8 +351,6 @@
              ctx.fillText("RESTART", gs.vp.w/2, gs.vp.h/2  );
          }
        };
-    
-     // Start Button object
 
        startBtn = {
          w: 100,
@@ -350,11 +378,11 @@
 
     function btnClick(e) {
 
-    // Variables for storing mouse position on click
+           // Variables for storing mouse position on click
            var mx = e.pageX,
                my = e.pageY;
 
-   // If the game is over, and the start button is clicked
+           // Click start button
            if(mx >= startBtn.x  && mx <= startBtn.x + startBtn.w) {
               over = false;
               startScreen();
@@ -430,21 +458,26 @@ startScreen();
   function startScreen(){
       if (over==true) {
           if (GameOver == false) {
-             drawBorder2(gs.vp);
+              //  drawScene();
+            drawBorder2(gs.vp);
+
              players.forEach(function(player) {
                drawPlayer(gs, player);
-                 });
-              startBtn.draw();
+             });
+               //  drawstartBtn();
+             startBtn.draw();
               }
-          else if (GameOver == true){
-              restartBtn.draw();
+              else if (GameOver == true){
+                restartBtn.draw();
               }
-       }
+
+        }
       else {
         updateScene(delta);
         drawScene();
       }
-  }
+
+          }
 
 
     function drawScene() {
@@ -456,7 +489,7 @@ startScreen();
 
       players.forEach(function(player) {
         drawPlayer(gs, player);
-        });
+      });
 
       drawBall(ball);
       updateScore();
@@ -466,6 +499,7 @@ startScreen();
     }
 
     function drawBorder(vp) {
+
       ctx.fillStyle = 'white';
       ctx.fillRect(8, 8, 4, vp.h-20);
       ctx.fillRect(8, 8, vp.w-20, 4);
@@ -475,17 +509,23 @@ startScreen();
     }
 
     function drawBorder2(vp) {
+      ctx.clearRect(0, 0, gs.vp.w, gs.vp.h);
       ctx.fillStyle = 'white';
       ctx.fillRect(8, 8, 4, vp.h-20);
       ctx.fillRect(8, 8, vp.w-20, 4);
       ctx.fillRect(vp.w-16, 8, 4, vp.h-20);
-      ctx.fillRect(8, vp.h-16, vp.w-20, 4);
-    
+     ctx.fillRect(8, vp.h-16, vp.w-20, 4);
+    // ctx.fillRect(vp.w/2, 8, 4, vp.h-20);
     }
 
     function drawPlayer(gs, player) {
-      ctx.fillStyle = player.color;
+    //  if (player.isHit) ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+    //  else
+       ctx.fillStyle = player.color;
       var pos = player.getPos(gs);
+      //ctx.beginPath();
+      //ctx.arc(pos.x, pos.y, player.size, 0, Math.PI*2, false);
+      //ctx.fill();
       ctx.fillRect(pos.x,pos.y-125,player.w,player.h);
 
     }
@@ -524,6 +564,8 @@ startScreen();
          delta = now - prevTime;
          prevTime = now;
 
+         //updateScene(delta);
+        // drawScene();
          startScreen();
        }, 15);
 
