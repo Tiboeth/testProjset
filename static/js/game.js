@@ -66,7 +66,7 @@
       var player = players.filter(function(p) { return p.name === data.playerName; })[0];
       if (!player) return console.log('Player not found', data.playerName);
 
-      var tilt = data.beta;
+      var tilt = data.gamma; //data.beta for tilt up-down data.gamma for tilt left-right
       if (tilt < -45) tilt = -45;
       if (tilt > 45) tilt = 45;
       tilt += 45;
