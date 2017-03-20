@@ -564,9 +564,9 @@
          delta = now - prevTime;
          prevTime = now;
 
-         updateScene(delta);
-         drawScene();
-         //startScreen();
+         //updateScene(delta);
+         //drawScene();
+         startScreen();
        }, 15);
 
 
