@@ -26,7 +26,7 @@
   function setupHost() {
     socket.emit('host game', { gameName: 'lily' });
     var players = [];
-    playerPlacementOrder = ['left', 'right']; //, 'bottom', 'top'];
+    playerPlacementOrder = ['left', 'right']; 
     var wallL=0,
       wallR=0,
       point1=0,
@@ -64,8 +64,7 @@
     // Add mousedown events to the canvas
       document.addEventListener('click', btnClick, true);
 
-  // Initialise the collision sound
-  collision = document.getElementById("collide");
+    collision = document.getElementById("collide");
     var img = document.getElementById("pic");
     var canvas = document.getElementById('game');
     var ctx = canvas.getContext('2d');
