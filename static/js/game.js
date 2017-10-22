@@ -460,30 +460,11 @@
       ctx.fill();
     }
 
-    function drawStuff(gs) {
-      ctx.strokeStyle = 'rgba(0, 200, 0, 0.8)';
-      ctx.beginPath();
-      ctx.moveTo(100, 100);
-      ctx.lineTo(100 + global1.x * 40, 100 + global1.y * 40);
-      ctx.stroke();
 
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-      ctx.beginPath();
-      ctx.moveTo(100, 100);
-      ctx.lineTo(100 + global2.x * 40, 100 + global2.y * 40);
-      ctx.stroke();
-
-      ctx.strokeStyle = 'rgba(200, 0, 0, 0.8)';
-      ctx.beginPath();
-      ctx.moveTo(100, 100);
-      ctx.lineTo(100 + global3.x * 40, 100 + global3.y * 40);
-      ctx.stroke();
-    }
-
-    var delta = 0;
-    var prevTime = new Date();
-       var ih = setInterval(function() {
-         var now = new Date();
+  var delta = 0;
+  var prevTime = new Date();
+  var ih = setInterval(function() {
+    var now = new Date();
          delta = now - prevTime;
          prevTime = now;
          startScreen();
